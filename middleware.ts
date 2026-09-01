@@ -27,7 +27,11 @@ export async function middleware(request: NextRequest) {
 
   // Protect admin dashboard routes (except the login page and auth API)
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+      secureCookie: request.nextUrl.protocol === 'https:',
+    });
     if (!token) {
       const loginUrl = new URL('/admin/login', request.url);
       loginUrl.searchParams.set('callbackUrl', pathname);
@@ -41,7 +45,11 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith('/api/admin/seed-initial') || pathname.startsWith('/api/admin/check-config')) {
       return NextResponse.next();
     }
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+      secureCookie: request.nextUrl.protocol === 'https:',
+    });
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
