@@ -20,9 +20,9 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL 
-  ? new URL(process.env.NEXT_PUBLIC_SITE_URL).origin 
-  : "https://www.layachi-bedding.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.startsWith('http')
+  ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
+  : process.env.NEXT_PUBLIC_SITE_URL || "https://www.layachi-bedding.com";
 const SITE_NAME = "Layachi Bedding";
 const SITE_TAGLINE = "للأفرشة | Literie Premium";
 
