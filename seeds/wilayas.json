@@ -1,0 +1,27 @@
+[
+  {
+    "code": "01",
+    "name": "Adrar",
+    "communes": ["Adrar", "Tamest", "Charouine", "Reggane", "Inzghmir", "Tit", "Aoulef", "Bordj Badji Mokhtar"]
+  },
+  {
+    "code": "16",
+    "name": "Alger",
+    "communes": ["Sidi M'Hamed", "El Madania", "Belouizdad", "Bab El Oued", "Bologhine", "Casbah", "Oued Koriche", "Bir Mourad Raïs", "El Biar", "Bouzareah", "Birtouta", "Zeralda", "Birkhadem", "El Harrach", "Baraki", "Hussein Dey", "Kouba", "Bourouba", "Dar El Beïda", "Bab Ezzouar", "Ben Aknoun", "Dely Ibrahim", "Hammamet", "Raïs Hamidou", "Khraissia", "Aïn Taya", "Bordj El Kiffan", "Mohammadia", "Bordj El Bahri", "El Marsa", "Heuraoua", "Rouiba", "Reghaia", "Aïn Benian", "Staoueli", "Cheraga", "Douera", "Ouled Fayet", "El Achour", "Draria", "Baba Hassen", "Khraicia", "Souidania", "Tessala El Merdja", "Saoula", "Rahmania", "Larbaâ", "Meftah", "Larbatache"]
+  },
+  {
+    "code": "09",
+    "name": "Blida",
+    "communes": ["Blida", "Chebli", "Bouinan", "Oued El Alleug", "Ouled Yaïch", "Chréa", "El Affroun", "Mouzaia", "Soumâa", "Meftah", "Boufarik", "Larbaâ", "Oued Djer", "Beni Mered", "Bouaarfa", "Beni Tamou", "Aïn Romana", "Djebabra", "Hammam Melouane", "Ben Khelil", "Souhane", "Mouzaia"]
+  },
+  {
+    "code": "31",
+    "name": "Oran",
+    "communes": ["Oran", "Bir El Djir", "Es Senia", "Arzew", "Bethioua", "Marsat El Hadjadj", "Aïn El Turk", "El Ancar", "Oued Tlélat", "Tafraoui", "Sidi Chami", "Boufatis", "Mers El Kebir", "Bousfer", "El Kerma", "El Braya", "Hassi Bounif", "Hassi Ben Okba", "Sidi Ben Yabka", "Boutlelis", "Aïn Kerma", "Hassi Mefsoukh", "Benfréha", "Aïn El Bya", "Gdyel"]
+  },
+  {
+    "code": "10",
+    "name": "Bouira",
+    "communes": ["Bouira", "El Asnam", "Aïn Bessem", "Bir Ghbalou", "Lakhdaria", "Kadiria", "Haizer", "Taghzout", "Raouraoua", "M'Chedallah", "Souk El Khemis", "Sour El Ghozlane", "Aïn El Hadjar", "Dirah", "Aïn Lahdjar", "Chorfa", "Dechmia", "Ridane", "El Mokrani", "Guerrouma", "Bordj Okhriss", "El Hachimia", "Aomar", "Aïn Turk", "Bechloul", "Boukram", "Ouled Rached", "Djebahia", "Ahl El Ksar", "Hadjra Zerga", "Taguedit", "Maâmora", "Aghbalou", "Zbarbar", "Aïn Laloui", "Ath Mansour", "El Adjiba", "Ahl El Ksar", "Saharidj", "Aïn Bessem", "Aomar", "Ahnif", "El Hakimia"]
+  }
+]

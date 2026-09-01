@@ -1,0 +1,397 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════
+   Layachi Bedding — Luxury Bedding Design System
+   Warm, elegant, premium bedding store aesthetic
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* Layachi Bedding warm color tokens */
+  --color-background:       #FDFBF7;
+  --color-background-2:     #FAF7F0;
+  --color-foreground:       #0F0F0F;
+  --color-border:           #E2D9C8;
+  --color-border-subtle:    #F0EAE0;
+  --color-button:           #0F0F0F;
+  --color-button-text:      #FDFBF7;
+  --color-button-hover:     #2C2520;
+  --color-sale:             #C45235;
+  --color-badge-new:        #0F0F0F;
+  --color-input-border:     #C9BDA8;
+  --color-shadow:           rgba(15,15,15,.08);
+
+  /* Layachi Bedding brand accent — Rich Gold */
+  --color-accent:           #D4AF37;
+  --color-accent-dark:      #B8952D;
+
+  /* Announcement bar */
+  --color-announcement-bg:  #0F0F0F;
+  --color-announcement-text:#FAF7F0;
+
+  /* Typography */
+  --font-display:  'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --font-body:     'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading:  'Cormorant Garamond', Georgia, serif;
+
+  /* Spacing */
+  --section-padding-y: 5rem;
+  --section-padding-y-sm: 3rem;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white font-sans;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-semibold;
+    color: var(--color-foreground);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* RTL Support for Arabic */
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Scroll animations */
+  .scroll-animate {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer components {
+
+  /* ── Layout Container ── */
+  .container {
+    @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  .container-narrow {
+    @apply max-w-[900px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ── Section spacing (Shopify Dawn-style) ── */
+  .section {
+    padding-top: var(--section-padding-y);
+    padding-bottom: var(--section-padding-y);
+  }
+  .section-sm {
+    padding-top: var(--section-padding-y-sm);
+    padding-bottom: var(--section-padding-y-sm);
+  }
+
+  /* ── Section heading (Shopify-style centered) ── */
+  .section-heading {
+    @apply text-center mb-10;
+  }
+  .section-heading h2 {
+    @apply text-3xl md:text-4xl font-sans font-semibold text-stone-900 mb-3;
+    letter-spacing: -0.02em;
+  }
+  .section-heading p {
+    @apply text-base text-stone-500 max-w-xl mx-auto;
+  }
+
+  /* ── Shopify Dawn Buttons ── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           font-sans font-medium text-sm
+           px-6 py-3 min-h-[44px]
+           transition-all duration-200 cursor-pointer;
+    letter-spacing: 0.04em;
+    border: 1px solid transparent;
+  }
+
+  .btn-primary {
+    background-color: var(--color-button);
+    color: var(--color-button-text);
+    border-color: var(--color-button);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-button-hover);
+    border-color: var(--color-button-hover);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-foreground);
+    border-color: var(--color-foreground);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-foreground);
+    color: var(--color-button-text);
+  }
+
+  .btn-outline-white {
+    background-color: transparent;
+    color: #FFFFFF;
+    border-color: rgba(255,255,255,0.6);
+  }
+  .btn-outline-white:hover {
+    background-color: #FFFFFF;
+    color: var(--color-foreground);
+    border-color: #FFFFFF;
+  }
+
+  .btn-accent {
+    background-color: var(--color-accent);
+    color: var(--color-foreground);
+    border-color: var(--color-accent);
+    font-weight: 600;
+  }
+  .btn-accent:hover {
+    background-color: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+  }
+
+  /* ── Shopify Dawn Product Card ── */
+  .product-card {
+    @apply relative cursor-pointer;
+    background-color: var(--color-background);
+  }
+  .product-card__media {
+    @apply relative overflow-hidden;
+    background-color: var(--color-background-2);
+    aspect-ratio: 3 / 4;
+  }
+  .product-card__media img {
+    @apply w-full h-full object-cover transition-transform duration-700 ease-out;
+  }
+  .product-card:hover .product-card__media img {
+    transform: scale(1.06);
+  }
+  .product-card__info {
+    @apply pt-4 pb-2 px-0;
+  }
+  .product-card__title {
+    @apply text-sm font-sans font-medium text-stone-900 leading-snug mb-1;
+    letter-spacing: 0.01em;
+  }
+  .product-card__price {
+    @apply text-sm text-stone-900 font-medium;
+  }
+  .product-card__compare-price {
+    @apply text-sm text-stone-400 line-through ml-2;
+  }
+  .product-card__badge {
+    @apply absolute top-3 left-3 z-10 px-2.5 py-1 text-[11px] font-sans font-semibold uppercase tracking-wider;
+  }
+  .badge-new {
+    background-color: var(--color-badge-new);
+    color: #FFFFFF;
+  }
+  .badge-sale {
+    background-color: var(--color-sale);
+    color: #FFFFFF;
+  }
+  .badge-featured {
+    background-color: var(--color-accent);
+    color: var(--color-foreground);
+  }
+
+  /* Quick-add button (Shopify Dawn style) */
+  .product-card__quick-add {
+    @apply absolute bottom-0 left-0 right-0 z-10
+           flex items-center justify-center
+           border-t border-[var(--color-border)]
+           text-sm font-sans font-medium text-stone-900
+           py-3 px-4
+           transform translate-y-full
+           transition-transform duration-300 ease-out;
+    background-color: var(--color-background);
+  }
+  .product-card:hover .product-card__quick-add {
+    transform: translateY(0);
+  }
+
+  /* ── Divider ── */
+  .divider {
+    @apply border-t border-[var(--color-border)];
+  }
+
+  /* ── Card (generic) ── */
+  .card {
+    @apply bg-white border border-[var(--color-border)];
+  }
+
+  /* ── Trust badge item ── */
+  .trust-item {
+    @apply flex flex-col items-center gap-3 text-center px-4;
+  }
+  .trust-item__icon {
+    @apply w-10 h-10 flex items-center justify-center;
+  }
+  .trust-item__text {
+    @apply text-xs font-sans font-medium text-stone-600 uppercase tracking-wide;
+  }
+
+  /* ── Link hover underline (Shopify style) ── */
+  .link-animated {
+    @apply relative inline-block;
+  }
+  .link-animated::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-px bg-current
+           transition-[width] duration-300 ease-out;
+  }
+  .link-animated:hover::after {
+    @apply w-full;
+  }
+
+  /* ── Announcement bar ── */
+  .announcement-bar {
+    background-color: var(--color-announcement-bg);
+    color: var(--color-announcement-text);
+    @apply text-xs font-sans font-medium tracking-wide text-center py-2.5 px-4;
+  }
+
+  /* ── Collection card ── */
+  .collection-card {
+    @apply relative overflow-hidden cursor-pointer;
+  }
+  .collection-card__img {
+    @apply w-full h-full object-cover transition-transform duration-700 ease-out;
+  }
+  .collection-card:hover .collection-card__img {
+    transform: scale(1.05);
+  }
+  .collection-card__overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent
+           flex items-end p-6;
+  }
+  .collection-card__title {
+    @apply font-sans font-semibold text-lg md:text-xl leading-tight;
+    color: #FAF7F0;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Input (Shopify Dawn) ── */
+  .input-field {
+    @apply w-full px-4 py-3 text-sm font-sans text-stone-900
+           border
+           placeholder-stone-400
+           focus:outline-none focus:ring-0
+           transition-colors duration-200;
+    background-color: var(--color-background);
+    border-color: var(--color-input-border);
+  }
+  .input-field:focus {
+    border-color: var(--color-foreground);
+  }
+
+  /* ── Hero banner (Shopify Dawn) ── */
+  .hero-banner {
+    @apply relative flex items-center justify-center overflow-hidden;
+    min-height: 80vh;
+  }
+  .hero-banner__content {
+    @apply relative z-10 text-center px-4 py-20 max-w-3xl mx-auto;
+  }
+  .hero-banner__heading {
+    @apply text-4xl md:text-6xl lg:text-7xl font-serif
+           leading-tight mb-6;
+    color: #FAF7F0;
+    letter-spacing: -0.03em;
+  }
+  .hero-banner__subheading {
+    @apply text-base md:text-lg font-sans font-light mb-10 max-w-xl mx-auto;
+    color: rgba(250, 247, 240, 0.85);
+  }
+
+  /* ── Icon button ── */
+  .icon-btn {
+    @apply flex items-center justify-center w-10 h-10
+           text-stone-700 hover:text-stone-900
+           transition-colors duration-150 cursor-pointer;
+  }
+
+  /* Legacy compatibility class aliases */
+  .hero-italia-gradient {
+    background: linear-gradient(135deg, #0F0F0F 0%, #1A1613 50%, #2C2520 100%);
+  }
+  .italia-divider {
+    @apply w-12 h-0.5 bg-stone-300;
+  }
+  .text-gradient-italia {
+    @apply text-stone-900;
+  }
+  .flag-accent::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 0;
+  }
+  .glow-green, .glow-red {
+    box-shadow: 0 0 20px rgba(18,18,18,0.15);
+  }
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+  .animate-float-delayed {
+    animation: float 8s ease-in-out 4s infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .mask-fade-bottom {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+}

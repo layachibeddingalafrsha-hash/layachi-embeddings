@@ -1,0 +1,32 @@
+[
+  {
+    "wilayaCode": "16",
+    "wilayaName": "Alger",
+    "toDesk": 400,
+    "toHome": 600
+  },
+  {
+    "wilayaCode": "09",
+    "wilayaName": "Blida",
+    "toDesk": 500,
+    "toHome": 700
+  },
+  {
+    "wilayaCode": "31",
+    "wilayaName": "Oran",
+    "toDesk": 600,
+    "toHome": 800
+  },
+  {
+    "wilayaCode": "10",
+    "wilayaName": "Bouira",
+    "toDesk": 550,
+    "toHome": 750
+  },
+  {
+    "wilayaCode": "01",
+    "wilayaName": "Adrar",
+    "toDesk": 800,
+    "toHome": 1000
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "name": "ZAK SHOP",
+  "short_name": "ZAK SHOP",
+  "description": "متجر الأزياء الأول في الجزائر — La meilleure boutique mode en Algérie",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#0A0A0A",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["shopping", "lifestyle"],
+  "screenshots": []
+}

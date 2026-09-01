@@ -1,0 +1,37 @@
+[
+  {
+    "platform": "tiktok",
+    "url": "https://tiktok.com/@crocco",
+    "icon": "tiktok",
+    "display_order": 1,
+    "is_active": true
+  },
+  {
+    "platform": "facebook",
+    "url": "https://facebook.com/crocco",
+    "icon": "facebook",
+    "display_order": 2,
+    "is_active": true
+  },
+  {
+    "platform": "instagram",
+    "url": "https://instagram.com/crocco",
+    "icon": "instagram",
+    "display_order": 3,
+    "is_active": true
+  },
+  {
+    "platform": "whatsapp",
+    "url": "https://wa.me/213XXXXXXXXX",
+    "icon": "whatsapp",
+    "display_order": 4,
+    "is_active": true
+  },
+  {
+    "platform": "email",
+    "url": "mailto:contact@crocco-dz.com",
+    "icon": "email",
+    "display_order": 5,
+    "is_active": true
+  }
+]
