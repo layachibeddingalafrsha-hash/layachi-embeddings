@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/utils/db";
+import { resolveSlug } from "@/lib/slug";
 import { ObjectId } from "mongodb";
 
 export const dynamic = "force-dynamic";
@@ -51,16 +52,35 @@ export async function PUT(
   try {
     const body = await request.json();
     const { db } = await connectToDatabase();
+    const _id = new ObjectId(params.id);
 
-    // If slug changed, check uniqueness
-    if (body.slug) {
+    // Normalize an admin-supplied slug before it is persisted: it is embedded
+    // in /products/<slug> URLs and must survive a URL round-trip.
+    let slug: string | undefined;
+    if (body.slug !== undefined) {
+      const resolved = resolveSlug(
+        body.slug,
+        body.name,
+        _id.toString()
+      );
+
+      if (!resolved) {
+        return NextResponse.json(
+          { error: "Could not generate a valid slug — please provide one" },
+          { status: 400 }
+        );
+      }
+
+      // Check uniqueness against the normalized value.
       const existing = await db.collection("products").findOne({
-        slug: body.slug,
-        _id: { $ne: new ObjectId(params.id) },
+        slug: resolved,
+        _id: { $ne: _id },
       });
       if (existing) {
         return NextResponse.json({ error: "Slug already taken" }, { status: 400 });
       }
+
+      slug = resolved;
     }
 
     const updateFields: any = { updatedAt: new Date() };
@@ -73,6 +93,11 @@ export async function PUT(
     ];
 
     for (const field of allowedFields) {
+      if (field === "slug") {
+        // Use the normalized value resolved above, never the raw input.
+        if (slug !== undefined) updateFields.slug = slug;
+        continue;
+      }
       if (body[field] !== undefined) {
         if (field === "price" || field === "compareAtPrice") {
           updateFields[field] = body[field] !== null && body[field] !== "" ? parseFloat(body[field]) : null;
@@ -85,7 +110,7 @@ export async function PUT(
     }
 
     const result = await db.collection("products").updateOne(
-      { _id: new ObjectId(params.id) },
+      { _id },
       { $set: updateFields }
     );
 

@@ -52,7 +52,7 @@ export default function ProductCard({ product }: { product: Product }) {
       selectedColor: variant.color,
     }]));
 
-    window.location.href = `/products/${product.slug}`;
+    window.location.href = `/products/${encodeURIComponent(product.slug)}`;
   };
 
   const badge = () => {
@@ -77,7 +77,7 @@ export default function ProductCard({ product }: { product: Product }) {
     >
       {/* Media */}
       <Link
-        href={`/products/${product.slug}`}
+        href={`/products/${encodeURIComponent(product.slug)}`}
         className="block product-card__media"
         onClick={() => {
           trackViewContent(product._id, product.name, product.price);
@@ -138,7 +138,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
       {/* Info */}
       <div className="product-card__info">
-        <Link href={`/products/${product.slug}`} className="block">
+        <Link href={`/products/${encodeURIComponent(product.slug)}`} className="block">
           <h3 className="product-card__title">
             {product.name}
           </h3>

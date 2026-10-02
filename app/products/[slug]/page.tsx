@@ -3,6 +3,7 @@
 import { trackPurchase, trackViewContent, trackAddToCart, trackInitiateCheckout, trackCustomEvent, trackFindLocation } from "@/components/MetaPixel";
 import { useI18n } from "@/lib/i18n";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import BundleOfferCard from "@/components/BundleOfferCard";
 import ShopifyCheckoutForm from "@/components/ShopifyCheckoutForm";
@@ -77,9 +78,11 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await fetch(`/api/products/slug/${params.slug}`);
+        // params.slug is already decoded by the router; re-encode it so the
+        // value survives the trip to the API route unchanged.
+        const res = await fetch(`/api/products/slug/${encodeURIComponent(params.slug)}`);
         if (!res.ok) {
-          router.replace("/not-found");
+          setLoading(false);
           return;
         }
         const data = await res.json();
@@ -93,7 +96,6 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
         trackViewContent(data._id, data.name, data.price);
       } catch (error) {
         console.error("Failed to fetch product:", error);
-        router.replace("/not-found");
       } finally {
         setLoading(false);
       }
@@ -438,15 +440,22 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Product not found</h1>
-          <button
-            onClick={() => router.replace("/")}
-            className="text-emerald-600 hover:underline"
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            {locale === "ar" ? "المنتج غير موجود" : "Product not found"}
+          </h1>
+          <p className="text-gray-500 mb-6">
+            {locale === "ar"
+              ? "قد يكون المنتج قد تم حذفه أو أن الرابط غير صحيح."
+              : "This product may have been removed, or the link is incorrect."}
+          </p>
+          <Link
+            href="/products"
+            className="inline-block px-4 py-2 bg-zak-black text-white rounded-md"
           >
-            Go back home
-          </button>
+            {locale === "ar" ? "تصفح كل المنتجات" : "Browse all products"}
+          </Link>
         </div>
       </div>
     );

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/utils/db";
+import { resolveSlug } from "@/lib/slug";
 import { ObjectId } from "mongodb";
 
 export const dynamic = "force-dynamic";
@@ -76,13 +77,20 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { db } = await connectToDatabase();
 
-    // Generate slug from name if not provided
-    const slug =
-      body.slug ||
-      body.name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
+    // Pre-generate the id so names with no Latin characters (e.g. Arabic-only)
+    // can still get a unique, URL-safe slug derived from it.
+    const _id = new ObjectId();
+
+    // Slugs are embedded in /products/<slug> URLs, so they must survive a URL
+    // round-trip. Normalize whatever the admin typed (or derive from the name).
+    const slug = resolveSlug(body.slug, body.name, _id.toString());
+
+    if (!slug) {
+      return NextResponse.json(
+        { error: "Could not generate a valid slug — please provide one" },
+        { status: 400 }
+      );
+    }
 
     // Check slug uniqueness
     const existing = await db.collection("products").findOne({ slug });
@@ -91,6 +99,7 @@ export async function POST(request: NextRequest) {
     }
 
     const product = {
+      _id,
       name: body.name,
       slug,
       description: body.description || "",
@@ -118,7 +127,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       productId: result.insertedId.toString(),
-      product: { ...product, _id: result.insertedId },
+      slug: product.slug,
+      product,
     });
   } catch (error) {
     console.error("Error creating product:", error);

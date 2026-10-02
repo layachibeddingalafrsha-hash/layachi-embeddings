@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/admin/DashboardLayout";
+import { slugify } from "@/lib/slug";
 
 interface ProductFormData {
   name: string;
@@ -61,6 +62,12 @@ export default function NewProductPage() {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
   };
+
+  // Preview of the slug the server will persist. The server normalizes
+  // authoritatively; this is only to show the admin what the URL will look like.
+  const slugPreview = form.slug.trim()
+    ? slugify(form.slug)
+    : slugify(form.name) || "product-<generated>";
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -157,8 +164,8 @@ export default function NewProductPage() {
   };
 
   const handleSubmit = async () => {
-    if (!form.name || !form.slug || !form.price) {
-      showToast("Name, slug, and price are required", "error");
+    if (!form.name || !form.price) {
+      showToast("Name and price are required", "error");
       return;
     }
 
@@ -176,9 +183,12 @@ export default function NewProductPage() {
       });
 
       if (res.ok) {
+        const created = await res.json().catch(() => null);
         showToast("Product created successfully");
         setTimeout(() => {
-          router.push("/admin/products");
+          router.push(
+            created?.slug ? `/admin/products?created=${encodeURIComponent(created.slug)}` : "/admin/products"
+          );
         }, 1500);
       } else {
         const data = await res.json();
@@ -233,14 +243,23 @@ export default function NewProductPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Slug *</label>
+                <label htmlFor="product-slug" className="block text-sm font-medium text-gray-700 mb-1">
+                  Slug <span className="text-gray-400 font-normal">(optional)</span>
+                </label>
                 <input
+                  id="product-slug"
                   type="text"
                   value={form.slug}
                   onChange={(e) => setForm({ ...form, slug: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
-                  placeholder="e.g., premium-mattress"
+                  placeholder={slugify(form.name) || "auto-generated from name"}
                 />
+                <p className="mt-1 text-xs text-gray-500">
+                  URL:{" "}
+                  <code className="bg-gray-100 px-1.5 py-0.5 rounded break-all">
+                    /products/{slugPreview}
+                  </code>
+                </p>
               </div>
             </div>
 

@@ -11,16 +11,29 @@ export async function GET(
 ) {
   try {
     const { db } = await connectToDatabase();
-    const { slug } = params;
+    // Next.js decodes dynamic route params, but guard against a value that
+    // arrives encoded so it can never silently mismatch the stored slug.
+    const slug = decodeURIComponent(params.slug);
 
-    const product = await db.collection("products").findOne({                         
+    const product = await db.collection("products").findOne({
       slug,
       active: true,
     });
 
     if (!product) {
+      // Distinguish "no such slug" from "exists but unpublished" so a broken
+      // link is not mistaken for a deactivated product.
+      const exists = await db.collection("products").findOne(
+        { slug },
+        { projection: { active: 1 } }
+      );
+
       return NextResponse.json(
-        { error: "Product not found" },
+        {
+          error: exists ? "Product is not available" : "Product not found",
+          slug,
+          unpublished: exists !== null && exists.active !== true,
+        },
         { status: 404 }
       );
     }
